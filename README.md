@@ -17,9 +17,15 @@ python test_classification.py --log_dir pointasnl_cls --use_normals --use_unifor
 
 #### 현재 개선 방향 
 
-문제점 : 지나치게 training 연산속도가 느림(Artemis 기준 1 epoch당 15분). 일부 tensor가 channel last 방식으로 삽입되는 현상 발견
-1. kd-tree(scipy 기반)을 gpu 기반으로 연산하는 과정이 필요(우선순위 높음). CuPy를 적용시켜 볼 여지 있음.
-1. 코드 최적화 필요(우선순위 낮음)
+문제점 : 지나치게 training 연산속도가 느림(Artemis 서버 기준 1 epoch당 15분). 일부 tensor가 channel last 방식으로 삽입되는 현상 발견
++ kd-tree(scipy 기반)을 gpu 기반으로 연산하는 과정이 필요(우선순위 높음). CuPy를 적용시켜 볼 여지 있음.
++ channel last 문제 해결(우선순위 높음)
++ 코드 최적화 필요(우선순위 낮음)
 
-accuracy : 90.4 / 39 epoch (still running).
-원본 코드(tensorflow ver) : 90.8% / 39 epoch | 93.4% / 251 epoch
+#### 성능
+
+| framework | accuracy | epoch |
+| :---: | :---: | :---: |
+| pytorch(ours) | 90.5 | 39(still running)
+| tensorflow | 90.8 | 39 |
+| tensorflow | 93.4 | 251 |
