@@ -26,6 +26,6 @@ python test_classification.py --log_dir pointasnl_cls --use_normals --use_unifor
 
 | framework | accuracy | epoch |
 | :---: | :---: | :---: |
-| pytorch(ours) | 90.5 | 39(still running)
-| tensorflow | 90.8 | 39 |
+| pytorch(ours) | 91.2 | 46(still running)
+| tensorflow | 90.8 | 46 |
 | tensorflow | 93.4 | 251 |
