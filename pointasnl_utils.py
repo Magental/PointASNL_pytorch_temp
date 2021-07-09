@@ -110,53 +110,6 @@ def grouping(npoint, K, xyz, new_xyz, points):
 
     return grouped_xyz, new_points
 
-def sample_and_group(npoint, K, xyz, points):
-    """
-    Input:
-        npoint:
-        radius:
-        nsample:
-        xyz: input points position data, [B, N, C]
-        points: input points data, [B, N, D]
-    Return:
-        new_xyz: sampled points position data, [B, npoint, nsample, C]
-        new_points: sampled points data, [B, npoint, nsample, C+D]
-    """ 
-    B, N, C = xyz.shape
-    S = npoint
-    fps_idx = farthest_point_sample(xyz, npoint) # [B, npoint, C]
-    new_xyz = index_points(xyz, fps_idx)
-    idx, _ = knn_query(xyz, new_xyz, K)
-    grouped_xyz = index_points(xyz, idx) # [B, npoint, nsample, C]
-    grouped_xyz_norm = grouped_xyz - new_xyz.view(B, S, 1, C)
-
-    if points is not None:
-        group_feature = index_points(points, idx)
-        new_points = torch.cat([grouped_xyz_norm, group_feature], dim=-1) # [B, npoint, nsample, C+D]
-    else:
-        new_points = grouped_xyz
-
-    return new_xyz, new_points, grouped_xyz_norm     
-
-def sample_and_group_all(xyz, points):
-    """
-    Input:
-        xyz: input points position data, [B, N, 3]
-        points: input points data, [B, N, D]
-    Return:
-        new_xyz: sampled points position data, [B, 1, 3]
-        new_points: sampled points data, [B, 1, N, 3+D]
-    """
-    device = xyz.device
-    B, N, C = xyz.shape
-    new_xyz = torch.zeros(B, 1, C).to(device)
-    grouped_xyz = xyz.view(B, 1, N, C)
-    if points is not None:
-        new_points = torch.cat([grouped_xyz, points.view(B, 1, N, -1)], dim=-1)
-    else:
-        new_points = grouped_xyz
-    return new_xyz, new_points, grouped_xyz
-
 class weight_net_hidden(nn.Module):
     def __init__(self, in_channel, hidden_units):
         super(weight_net_hidden, self).__init__()
