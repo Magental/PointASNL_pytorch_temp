@@ -1,6 +1,6 @@
 # PointASNL_pytorch_temp
 
-pointnet pytorch ver. 과 호환되는 pointasnl 코드(임시).
+pointnet pytorch ver(https://github.com/yanx27/Pointnet_Pointnet2_pytorch). 과 호환되는 pointasnl 코드(임시).
 
 
 
